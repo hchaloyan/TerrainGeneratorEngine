@@ -1,0 +1,5 @@
+```
+data/
+output/
+*.o
+a.out
