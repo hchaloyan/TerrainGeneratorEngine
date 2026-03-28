@@ -1,7 +1,7 @@
 CXX      := g++
 CXXFLAGS := -std=c++17 -Wall -Wextra -O2
 TARGET   := terrain
-SRCS     := src/main.cpp src/parser.cpp src/renderer.cpp
+SRCS     := src/main.cpp src/parser.cpp src/renderer.cpp third_party/stbImageWrite.cpp
 OBJS     := $(SRCS:.cpp=.o)
 
 $(TARGET): $(OBJS)
