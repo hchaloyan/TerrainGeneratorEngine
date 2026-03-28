@@ -25,7 +25,7 @@ struct ElevationTile {
 
     // Convenience accessor
     int16_t at(int row, int col) const {
-        return elevations[row * header.ncols + col];
+        return elevations[row * header.nCols + col];
     }
 };
 

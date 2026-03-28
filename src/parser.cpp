@@ -85,7 +85,7 @@ bool BILParser::parseHeader(
         else if (k == "ulymap")    hdr.upperLeftLatitude    = std::stod(value);
         
         
-        else if (k == "nodata")    hdr.nodata               = std::stoi(value);
+        else if (k == "nodata")    hdr.noData               = std::stoi(value);
         
         
         else if (k == "byteorder") hdr.bigEndian            = (value == "M" 
@@ -97,7 +97,7 @@ bool BILParser::parseHeader(
         err = "Header missing nrows/ncols: " + hdr_path;
         return false;
     }
-    if (hdr.nbits != 16) {
+    if (hdr.nBits != 16) {
         err = "Only 16-bit BIL is supported (got " + std::to_string(hdr.nBits) + ")";
         return false;
     }
@@ -133,7 +133,7 @@ bool BILParser::parseData(
     }
 
     // Swap if Big-Endian
-    if (hdr.header.bigEndian){
+    if (tile.header.bigEndian){
         for (auto& v : tile.elevations) v = swapBytes(v);
     }
     return true;
