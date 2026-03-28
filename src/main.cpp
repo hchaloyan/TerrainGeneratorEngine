@@ -4,9 +4,9 @@
 
 int main(int argc, char* argv[]) {
     
-    // Arg check
+    // Arg count check
     if (argc < 2) {
-        std::cerr << "Improper arg count,\nUsage: terrain <path/to/file.bil>\n";
+        std::cerr << "Improper arg count:\nUsage: terrain <path/to/file> [--colormap grayscale|color]\n";
         return 1;
     }
 
@@ -40,32 +40,35 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    std::string outputPath = "output/render.png";
 
-    // Greyscale Render -------------------------------------------------------
+    // Default to color
+    std::string mode = "color";
 
-    std::string outputPath = "output/testRender.png";
+    // Check for --colormap flag
+    for (int i = 2; i < argc; i++) {
+        if (std::string(argv[i]) == "--colormap" && i + 1 < argc) {
+            mode = argv[i + 1];
+        }
+    }
 
-    // Render test:
-    if(!renderGrayscale(tile, outputPath, err)){
-        std::cerr << "Render error: " << err << "\n";
+    if (mode == "grayscale") {
+        if (!renderGrayscale(tile, outputPath, err)) {
+            std::cerr << "Render error: " << err << "\n";
+            return 1;
+        }
+    } else if (mode == "color") {
+        if (!renderColormap(tile, outputPath, err)) {
+            std::cerr << "Render error: " << err << "\n";
+            return 1;
+        }
+    } else {
+        std::cerr << "Unknown colormap: " << mode << "\n";
+        std::cerr << "Usage: --colormap [grayscale|color]\n";
         return 1;
     }
 
-    std::cout << "Saved output: " << outputPath << ".\n";
-
-
-
-    // Colormap Render --------------------------------------------------------
-
-    std::string colorOutputPath = "output/colorRender.png";
-
-    // Render test:
-    if(!renderColormap(tile, colorOutputPath, err)){
-        std::cerr << "Render error: " << err << "\n";
-        return 1;
-    }
-
-    std::cout << "Saved output: " << colorOutputPath << ".\n";
+    std::cout << "Saved output: " << outputPath << "\n";
 
     return 0;
 }

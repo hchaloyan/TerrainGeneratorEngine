@@ -1,7 +1,6 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "../third_party/stbImageWrite.h"
 #include "renderer.h"
-#include "colormap.h"
 #include <algorithm>
 
 bool renderGrayscale(
@@ -106,6 +105,7 @@ bool renderColormap(
 
     double t;
 
+    
     // Iterate through elevations vector
     for (size_t i = 0; i < elevations.size(); i++) {
         
@@ -131,6 +131,20 @@ bool renderColormap(
         pixels[i*3 + 1] = (uint8_t)(terrainStops[s].green + f * (terrainStops[s+1].green - terrainStops[s].green));
         pixels[i*3 + 2] = (uint8_t)(terrainStops[s].blue + f * (terrainStops[s+1].blue - terrainStops[s].blue));
     }
+
+
+
+    // Compute hillshade
+    std::vector<double> shade = computeHillshade(tile);
+
+    // Multiply over colormap
+    for (size_t i = 0; i < elevations.size(); i++) {
+        pixels[i*3 + 0] = (uint8_t)(pixels[i*3 + 0] * shade[i]);
+        pixels[i*3 + 1] = (uint8_t)(pixels[i*3 + 1] * shade[i]);
+        pixels[i*3 + 2] = (uint8_t)(pixels[i*3 + 2] * shade[i]);
+    }
+
+
 
     // stbi_write_png returns 0 on failure
     // Write PNG using stb, and error check

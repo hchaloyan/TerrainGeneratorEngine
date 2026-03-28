@@ -2,6 +2,7 @@
 #include <string>
 #include "parser.h"
 #include "colormap.h"
+#include "hillshade.h"
 
 // ---------------------------------------------------------------------------------
 
