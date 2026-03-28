@@ -40,7 +40,9 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    
+
+    // Greyscale Render -------------------------------------------------------
+
     std::string outputPath = "output/testRender.png";
 
     // Render test:
@@ -52,6 +54,18 @@ int main(int argc, char* argv[]) {
     std::cout << "Saved output: " << outputPath << ".\n";
 
 
+
+    // Colormap Render --------------------------------------------------------
+
+    std::string colorOutputPath = "output/colorRender.png";
+
+    // Render test:
+    if(!renderColormap(tile, colorOutputPath, err)){
+        std::cerr << "Render error: " << err << "\n";
+        return 1;
+    }
+
+    std::cout << "Saved output: " << colorOutputPath << ".\n";
 
     return 0;
 }
